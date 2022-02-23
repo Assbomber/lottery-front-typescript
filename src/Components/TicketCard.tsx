@@ -1,10 +1,65 @@
-import React from 'react'
-import styled from "styled-components"
+import React,{useState} from 'react'
+import styled from 'styled-components';
+import Loader from "../Components/Loader"
+function TicketCard(props:any) {
 
-function TicketCard(props: { winningSum: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }) {
+  const date=new Date(props.createdAt);
+  const lastUpdatedOn=new Date(props.updatedAt);
+  const [loader,setLoader] = useState(false);
+
+
+  const handleBuy=()=>{
+    //handle ticket buy here
+    setLoader(true);
+    setTimeout(()=>{
+      setLoader(false);
+    },3000);
+  }
+
   return (
     <Container>
-        WinningSum: {props.winningSum}
+      {loader && <Loader/>}
+      <h1>Winning Sum: <span className="yellowtxt">₹ {props.winningSum}</span> </h1>
+      
+      <p> <span></span></p>
+      <p> <span></span></p>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <h2>TICKET ID:</h2>
+            </td>
+            <td>
+              <h2 className="ticketid">{props._id}</h2>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h3>CREATED ON:</h3>
+            </td>
+            <td>
+              <h3>{date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()}</h3>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h3>LAST UPDATED:</h3>
+            </td>
+            <td>
+              <h3>{lastUpdatedOn.getDate()+"-"+lastUpdatedOn.getMonth()+"-"+lastUpdatedOn.getFullYear()}</h3>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h3>PARTICIPANTS: </h3>
+            </td>
+            <td>
+              <h3><span className="whitetxt">{props.participants.length}</span>/5</h3>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <Buy onClick={handleBuy}>BUY NOW @ ₹ {props.buyPrice} </Buy>
     </Container>
   )
 }
@@ -13,8 +68,72 @@ export default TicketCard
 
 const Container=styled.div`
     width:100%;
-    background-color:pink;
-    height:300px;
+    border:4px solid #1BA94C;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(191,233,205,1) 62%, rgba(27,169,76,1) 100%);
+    box-shadow: -4px -1px 19px 1px rgba(0,0,0,0.75);
     border-radius: 10px;
-    margin:0 0 10px;
+    margin:0 0 20px;
+    
+
+    &>h1{
+      padding:10px;
+    }
+    .yellowtxt{
+        color:#F4A442;
+      }
+      .whitetxt{
+        color:white;
+      }
+
+      table{
+        width:100%;
+         padding:10px;
+        td:first-child{
+          color:#1BA94C;
+        }
+        td:last-child{
+          text-align: right;
+        }
+      }
+
+
+    &:hover{
+      transform:Scale(1.02);
+      transition-duration: 0.4s;
+    }
+    
+
+    @media only screen and (max-width: 1000px) {
+      
+      table{
+        width:100%;
+       
+        td:first-child{
+          color:#1BA94C;
+          font-size:14px;
+        }
+        .ticketid{
+          font-size:11px;
+        }
+      }
+    }
 `;
+
+const Buy=styled.div`
+  width:100%;
+  padding:15px;
+  background-color:#1BA94C;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+  border-radius: 0 0 5px 5px;
+  font-weight:bold;
+
+  &:hover{
+    background-color: #81B214;
+  }
+`;
+
+
+

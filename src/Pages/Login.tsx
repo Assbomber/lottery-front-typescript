@@ -46,6 +46,7 @@ function Login() {
     if(res.result){
         //redirect
         localStorage.setItem("token",res.data.token);
+        localStorage.setItem("id",res.data.id);
         setRedirect(true);
     }else{
         setError(res.error);

@@ -5,55 +5,97 @@ import styled from "styled-components";
 import TicketCard from "../Components/TicketCard"
 import getOpenTickets from '../Api/getOpenTickets';
 import {useState,useEffect} from "react";
+import Loader from "../Components/Loader"
+import Error from "../Components/Error"
+import getUser from "../Api/getUser"
+
+
+interface userDetails{
+  email?: string,
+  name?: string,
+  participatedBids?:number,
+  wallet?: number,
+  wonBids?: number,
+  _id?: string
+}
+
+interface ticketDetails{
+  buyPrice: number
+  createdAt: Date
+  drawn: boolean
+  participants: [string]
+  startedOn: Date
+  updatedAt: Date
+  winningSum: number
+  _id: string
+}
 
 function Home() {
 
   const [openTickets,setOpenTickets]=useState([]);
+  const [loader,setLoader]=useState(true);
+  const [error,setError]=useState("");
+  const [currentUserDetails,setCurrentUserDetails]=useState<userDetails>({});
 
 
   //will run only one time when component is loaded
   useEffect(() => {
     async function onLoad(){
       const res=await getOpenTickets(localStorage.getItem("token"));
+      const res2=await getUser(localStorage.getItem("id"),localStorage.getItem("token"));
+      setLoader(false);
       if(res.result){
         //handle success
-        console.log(res.data);
         setOpenTickets(res.data);
       }else{
         //handle error
-        console.log(res.error);
+        setError(res.error);
+        return;
+      }
+      if(res2.result){
+        console.log(res2.data);
+        setCurrentUserDetails(res2.data);
+      }else{
+        setError(res.error);
+        return;
       }
     }
     onLoad();
   },[])
   
+
+  function handleErrorClose(){
+    setError("")
+  }
   return (
     <div>
     {!localStorage.getItem("token") && <Navigate to="/"/>}
-        <Header/>
+    {loader && <Loader/>}
+    {error && <Error handleClose={handleErrorClose} error={error}/>}
+        <Header username={currentUserDetails.name}/>
         <Container>
           <Tickets>
-            {openTickets.map((obj:{_id:string,winningSum:number})=><TicketCard  key={obj._id} {...obj}/>)}
+            {openTickets.map((obj:ticketDetails)=><TicketCard  key={obj._id} {...obj}/>)}
           </Tickets>
           <Info>
               <h2>DASHBOARD</h2>
               <table>
                 <tbody>
                   <tr>
+                    <td>User ID:</td>
+                    <td>{currentUserDetails._id}</td>
+                  </tr>
+                  <tr>
                     <td>Your Wallet:</td>
-                    <td>1000 💰</td>
+                    <td>{currentUserDetails.wallet} 💰</td>
                   </tr>
                   <tr>
                     <td>Participated Bids:</td>
-                    <td>5</td>
-                  </tr>
-                  <tr>
-                    <td>Past Bids:</td>
-                    <td>3</td>
+                    <td>{currentUserDetails.participatedBids}</td>
                   </tr>
                   <tr>
                     <td>Won Bids:</td>
-                    <td>2</td>
+                    <td>{currentUserDetails.wonBids}</td>
                   </tr>
                 </tbody>
               </table>
@@ -82,6 +124,9 @@ const Container=styled.div`
   display:flex;
   align-items:start;
   padding:50px 200px;
+  @media only screen and (max-width:1240px){
+    padding:50px 20px;
+  }
   @media only screen and (max-width:768px){
     flex-direction: column-reverse;
   }
@@ -90,6 +135,10 @@ const Container=styled.div`
 const Tickets=styled.div`
   width:100%;
   padding:0 20px;
+
+  @media only screen and (max-width:768px){
+    padding:0;
+  }
 `;
 
 const Info=styled.div`
@@ -103,6 +152,7 @@ const Info=styled.div`
   color:white;
   font-size: 18px;
   border-radius:10px;
+  margin-bottom: 30px;
 
   @media only screen and (max-width:768px){
     max-width:768px;

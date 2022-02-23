@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import styled from "styled-components";
 import {Link,Navigate} from "react-router-dom";
 
-function Header() {
+function Header(props:{username:string | undefined}){
     const [openMenu,setOpenMenu]=useState(false);
     const [redirect,setRedirect] = useState(false);
 
@@ -25,6 +25,7 @@ function Header() {
         <Options show={openMenu}>
             <a onClick={handleLogout}>Logout</a>
             <Link to="/home">Home</Link>
+            <p style={{color:"white",fontWeight:"bold"}}>{props.username}</p>
             <img src="https://img.icons8.com/office/40/000000/test-account.png" alt=""/>
         </Options>
         

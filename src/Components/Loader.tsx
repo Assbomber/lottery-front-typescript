@@ -7,7 +7,7 @@ function Loader() {
   return (
     <Container>
         <div>
-            <img src="https://gifimage.net/wp-content/uploads/2018/04/loading-gif-orange-10.gif" alt=""/>
+            <img src="/loader.gif" alt=""/>
         </div>
     </Container>
   )
