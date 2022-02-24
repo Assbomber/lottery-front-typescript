@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import styled from "styled-components";
 import {Link,Navigate} from "react-router-dom";
 
-function Header(props:{username:string | undefined}){
+function Header(props:{username?:string | undefined}){
     const [openMenu,setOpenMenu]=useState(false);
     const [redirect,setRedirect] = useState(false);
 

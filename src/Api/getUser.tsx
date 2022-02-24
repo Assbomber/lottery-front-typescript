@@ -1,8 +1,7 @@
 import {BACKEND_URL} from "../constants";
 import axios from "axios";
 
-const getOpenTickets=async (id:string | null,token: string | null)=>{
-    console.log("called")
+const getUser=async (id:string | null,token: string | null)=>{
     try{
         const response =await axios.get(`${BACKEND_URL}/api/users/${id}`,
         {
@@ -14,4 +13,4 @@ const getOpenTickets=async (id:string | null,token: string | null)=>{
     }
 }
 
-export default getOpenTickets;
+export default getUser;

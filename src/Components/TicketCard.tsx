@@ -1,20 +1,29 @@
 import React,{useState} from 'react'
 import styled from 'styled-components';
 import Loader from "../Components/Loader"
+import buyTicket from "../Api/buyTicket";
+import { useNavigate } from "react-router-dom"
+
 function TicketCard(props:any) {
 
   const date=new Date(props.createdAt);
   const lastUpdatedOn=new Date(props.updatedAt);
   const [loader,setLoader] = useState(false);
+  const navigate=useNavigate();
 
 
-  const handleBuy=()=>{
+  const handleBuy=async ()=>{
     //handle ticket buy here
     setLoader(true);
-    setTimeout(()=>{
-      setLoader(false);
-    },3000);
+    const res=await buyTicket(localStorage.getItem("id"),props._id,localStorage.getItem("token"))
+    setLoader(false);
+    if(res.result){
+      navigate("/draw")
+    }else{
+      props.showError(res.error);
+    }
   }
+
 
   return (
     <Container>

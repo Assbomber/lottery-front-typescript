@@ -33,14 +33,16 @@ interface ticketDetails{
 function Home() {
 
   const [openTickets,setOpenTickets]=useState([]);
-  const [loader,setLoader]=useState(true);
+  const [loader,setLoader]=useState(false);
   const [error,setError]=useState("");
   const [currentUserDetails,setCurrentUserDetails]=useState<userDetails>({});
+  const [reload,setReload]=useState(false);
 
 
   //will run only one time when component is loaded
   useEffect(() => {
     async function onLoad(){
+      setLoader(true);
       const res=await getOpenTickets(localStorage.getItem("token"));
       const res2=await getUser(localStorage.getItem("id"),localStorage.getItem("token"));
       setLoader(false);
@@ -61,11 +63,19 @@ function Home() {
       }
     }
     onLoad();
-  },[])
+  },[reload])
   
 
   function handleErrorClose(){
     setError("")
+  }
+
+  function handleReloader(){
+    setReload(!reload);
+  }
+
+  function showError(msg:string){
+    setError(msg);
   }
   return (
     <div>
@@ -75,7 +85,7 @@ function Home() {
         <Header username={currentUserDetails.name}/>
         <Container>
           <Tickets>
-            {openTickets.map((obj:ticketDetails)=><TicketCard  key={obj._id} {...obj}/>)}
+            {openTickets.map((obj:ticketDetails)=><TicketCard showError={(msg:string)=>showError(msg)} handleReload={handleReloader} key={obj._id} {...obj}/>)}
           </Tickets>
           <Info>
               <h2>DASHBOARD</h2>

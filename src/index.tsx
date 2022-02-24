@@ -4,6 +4,7 @@ import './index.css';
 import Login from './Pages/Login';
 import Header from './Components/Header';
 import Home from "./Pages/Home";
+import Draw from "./Pages/Draw"
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom";
 
 ReactDOM.render(
@@ -12,6 +13,7 @@ ReactDOM.render(
       <Routes>
         <Route  path="/" element={<Login />} />
         <Route  path="/home" element={<Home />} />
+        <Route  path="/draw" element={<Draw />} />
       </Routes>
     </Router>
   </React.StrictMode>,
