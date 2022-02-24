@@ -18,7 +18,7 @@ function TicketCard(props:any) {
     const res=await buyTicket(localStorage.getItem("id"),props._id,localStorage.getItem("token"))
     setLoader(false);
     if(res.result){
-      navigate("/draw")
+      navigate("/draw/"+localStorage.getItem("id")+"/"+props._id)
     }else{
       props.showError(res.error);
     }
@@ -47,7 +47,7 @@ function TicketCard(props:any) {
               <h3>CREATED ON:</h3>
             </td>
             <td>
-              <h3>{date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()}</h3>
+              <h3>{date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()}</h3>
             </td>
           </tr>
           <tr>

@@ -6,6 +6,7 @@ import Header from './Components/Header';
 import Home from "./Pages/Home";
 import Draw from "./Pages/Draw"
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom";
+import Transactions from './Pages/transactions';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,7 +14,8 @@ ReactDOM.render(
       <Routes>
         <Route  path="/" element={<Login />} />
         <Route  path="/home" element={<Home />} />
-        <Route  path="/draw" element={<Draw />} />
+        <Route  path="/draw/:userId/:ticketId" element={<Draw />} />
+        <Route  path="/transactions" element={<Transactions />} />
       </Routes>
     </Router>
   </React.StrictMode>,

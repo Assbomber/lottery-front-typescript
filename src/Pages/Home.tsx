@@ -85,15 +85,20 @@ function Home() {
         <Header username={currentUserDetails.name}/>
         <Container>
           <Tickets>
-            {openTickets.map((obj:ticketDetails)=><TicketCard showError={(msg:string)=>showError(msg)} handleReload={handleReloader} key={obj._id} {...obj}/>)}
+            {openTickets.length<=0 ? <h3 style={{textAlign:"center",color:"grey"}}>No Ticket available, Please check back later</h3> :openTickets.map((obj:ticketDetails)=><TicketCard showError={(msg:string)=>showError(msg)} handleReload={handleReloader} key={obj._id} {...obj}/>)}
           </Tickets>
           <Info>
-              <h2>DASHBOARD</h2>
+              <h2 style={{textAlign:"center"}}>DASHBOARD</h2>
+              <img src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png" alt=""></img>
               <table>
                 <tbody>
                   <tr>
                     <td>User ID:</td>
                     <td>{currentUserDetails._id}</td>
+                  </tr>
+                   <tr>
+                    <td>User Name:</td>
+                    <td>{currentUserDetails.name}</td>
                   </tr>
                   <tr>
                     <td>Your Wallet:</td>
@@ -163,6 +168,12 @@ const Info=styled.div`
   font-size: 18px;
   border-radius:10px;
   margin-bottom: 30px;
+
+  img{
+    width:30%;
+    display:block;
+    margin:0 auto;
+  }
 
   @media only screen and (max-width:768px){
     max-width:768px;
