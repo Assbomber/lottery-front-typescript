@@ -47,6 +47,7 @@ function Login() {
         //redirect
         localStorage.setItem("token",res.data.token);
         localStorage.setItem("id",res.data.id);
+        localStorage.setItem("isAdmin",res.data.isAdmin);
         setRedirect(true);
     }else{
         setError(res.error);

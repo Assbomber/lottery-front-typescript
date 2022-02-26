@@ -5,6 +5,7 @@ import {Link,Navigate} from "react-router-dom";
 function Header(props:{username?:string | undefined}){
     const [openMenu,setOpenMenu]=useState(false);
     const [redirect,setRedirect] = useState(false);
+    const isAdmin:any=localStorage.getItem('isAdmin');
 
     const handleMenuOpen=()=>{
         setOpenMenu(!openMenu);
@@ -26,6 +27,7 @@ function Header(props:{username?:string | undefined}){
            
             <Link to="/home">Home</Link>
             <Link to="/transactions">Transactions</Link>
+            {isAdmin==="true" && <Link to="/admin">Admin Panel</Link>}
             {/* <p style={{color:"white",fontWeight:"bold"}}>{props.username}</p>
             <img src="https://img.icons8.com/office/40/000000/test-account.png" alt=""/> */}
             <img onClick={handleLogout} src="https://img.icons8.com/external-others-sbts2018/58/000000/external-logout-social-media-others-sbts2018.png" width="38px" alt=""/>

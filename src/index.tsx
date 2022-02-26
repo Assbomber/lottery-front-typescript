@@ -7,13 +7,16 @@ import Home from "./Pages/Home";
 import Draw from "./Pages/Draw"
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom";
 import Transactions from './Pages/transactions';
+import Admin from './Pages/Admin';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Routes>
+
         <Route  path="/" element={<Login />} />
         <Route  path="/home" element={<Home />} />
+        <Route  path="/admin" element={<Admin />} />
         <Route  path="/draw/:userId/:ticketId" element={<Draw />} />
         <Route  path="/transactions" element={<Transactions />} />
       </Routes>
